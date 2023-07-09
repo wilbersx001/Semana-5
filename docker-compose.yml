@@ -3,7 +3,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 8080:80
+      - 8082:82
     volumes:
       - /var/jenkins_home/workspace/Semana 5/mysql
     depends_on:
