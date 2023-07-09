@@ -10,6 +10,7 @@ services:
       - php-fpm
     networks:
       - myapp-network
+
   php-fpm:
     image: php:7.4-fpm
     volumes:
@@ -18,9 +19,6 @@ services:
       - myapp-network
     command: >
       bash -c "docker-php-ext-install mysqli && php-fpm"
-    # O también puedes usar el shell de sh en lugar de bash, dependiendo de la imagen de PHP:
-    # command: >
-    #   sh -c "docker-php-ext-install mysqli && php-fpm"
 
   mariadb:
     image: mariadb:latest
