@@ -1,16 +1,28 @@
 pipeline {
+    agent any
+    
+    stages {
 
-  agent any
+      
 
-  stages {
-    stage('jenkins'){
-      steps {
-        sh '''
-          echo 1234 | sudo -S docker compose up -d --build
-          ls
-        '''
-      }
+        stage('Build') {
+            steps {
+                sh 'echo "Compiling code..."'
+                sh 'docker compose -f /docker-compose.yml up -d --no-color --wait'
+                sh 'docker compose ps'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'echo "Running tests..."'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh 'echo "Deploying code..."'
+            }
+        }
     }
-  }
-  
 }
