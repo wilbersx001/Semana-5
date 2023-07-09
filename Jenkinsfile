@@ -8,10 +8,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo "Compiling code..."'
-                sh 'docker compose -f /week_third/docker-compose.yml up -d --no-color --wait'
-                sh 'docker compose ps'
+               // sh 'docker compose -f /week_third/docker-compose.yml up -d --no-color --wait'
+                //sh 'docker compose ps'
             }
         }
+
         
         stage('Test') {
             steps {
