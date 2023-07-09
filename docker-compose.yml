@@ -10,7 +10,6 @@ services:
       - php-fpm
     networks:
       - myapp-network
-
   php-fpm:
     image: php:7.4-fpm
     volumes:
