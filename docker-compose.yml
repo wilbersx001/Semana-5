@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   jenkins:
-    container_name: jenkins_blue_ocean
+    container_name: jenkins_container
     image: jenkins/jenkins:alpine
     ports:
       - "8081:8080"
