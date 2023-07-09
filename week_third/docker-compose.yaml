@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:  
+  nginx:  
+    build: ./nginx 
+    ports: 
+      - 1339:80 
+    volumes:  
+      - static_volume:/home/app/static 
+    depends_on: 
+      - web 
+    restart: "on-failure" 
+
+  web: 
+    build: . 
+    command: sh -c "python3 manage.py makemigrations &&
+                    python3 manage.py migrate &&
+                    gunicorn week_third.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    volumes: 
+      - .:/microservice 
+      - static_volume:/home/app/static
+    env_file: 
+      - .env 
+    image: week_third 
+    expose: 
+      - ${APP_PORT}  
+    restart: "on-failure"
+    depends_on: 
+      - db
+
+  db: 
+    image: postgres:latest
+    container_name: local_pgdb
+    restart: always
+    environment:
+      POSTGRES_USER: robert
+      POSTGRES_PASSWORD: 2160738
+    volumes:
+       - db-data:/var/lib/postgresql/data
+    ports:
+      - "5450:5432"
+
+  pgadmin: 
+    image: dpage/pgadmin4:latest
+    container_name: local_pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: alvarezrobert150@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 2160738
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db  
+ 
+
+volumes:
+  static_volume:
+  pgadmin-data:
+  db-data:
